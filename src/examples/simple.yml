@@ -3,7 +3,7 @@ description: |
 usage:
   version: 2.1
   orbs:
-    forbid-rerun: suzuki-shunsuke/forbid-rerun@0.1.0
+    forbid-rerun: suzuki-shunsuke/forbid-rerun@0.1.1
   workflows:
     build:
       jobs:
@@ -16,7 +16,7 @@ usage:
         - run:
             name: Install requirements
             command: |
-              apk add ca-certificates git bash
+              apk add ca-certificates git bash openssh
         - checkout
         - forbid-rerun/forbid-rerun-non-latest-build:
             branches: "master,release/.*"

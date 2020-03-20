@@ -1,5 +1,6 @@
 # circleci-orb-forbid-rerun
 
+[![CircleCI Orb Version](https://img.shields.io/badge/endpoint.svg?url=https://badges.circleci.io/orb/suzuki-shunsuke/forbid-rerun)](https://circleci.com/orbs/registry/orb/suzuki-shunsuke/forbid-rerun)
 [![CircleCI](https://circleci.com/gh/suzuki-shunsuke/circleci-orb-forbid-rerun.svg?style=svg)](https://circleci.com/gh/suzuki-shunsuke/circleci-orb-forbid-rerun)
 [![GitHub last commit](https://img.shields.io/github/last-commit/suzuki-shunsuke/circleci-orb-forbid-rerun.svg)](https://github.com/suzuki-shunsuke/circleci-orb-forbid-rerun)
 [![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/suzuki-shunsuke/circleci-orb-forbid-rerun/master/LICENSE)

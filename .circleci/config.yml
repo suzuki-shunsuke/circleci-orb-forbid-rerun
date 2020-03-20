@@ -3,7 +3,7 @@ version: 2.1
 
 orbs:
   orb: suzuki-shunsuke/orb@0.1.1
-  forbid-rerun: suzuki-shunsuke/forbid-rerun@dev:pr-1
+  forbid-rerun: suzuki-shunsuke/forbid-rerun@0.1.0
 
 workflows:
   build:
