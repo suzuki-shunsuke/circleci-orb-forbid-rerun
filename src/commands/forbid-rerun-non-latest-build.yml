@@ -1,0 +1,64 @@
+description: |
+  Forbid rerun builds whose revision isn't latest.
+  Push tag event isn't supported.
+
+  Requirements
+  * bash
+  * git
+parameters:
+  dir:
+    type: string
+    default: "."
+    description: |
+      The relative path from the workspace root directory to the directory where the repository is checkouted.
+  branches:
+    type: string
+    default: master
+    description: |
+      Branch names where rerun is forbidden.
+      The regular expression can be used as the branch name.
+  separator:
+    type: string
+    default: " "
+    description: |
+      The separator of the parameters.branches.
+      The separator should be one character.
+      The double quote '"' can't be used.
+steps:
+  - run:
+      name: Forbid to rerun non latest build
+      # requirement: bash
+      shell: /bin/bash -eu -o pipefail
+      command: |
+        if [ -z "$CIRCLE_BRANCH" ]; then
+          echo "CIRCLE_BRANCH is empty"
+          exit 0
+        fi
+        matched=false
+        for branch in $(echo "<< parameters.branches >>" | tr "<< parameters.separator >>" "\n"); do
+          if [ "$CIRCLE_BRANCH" = "$branch" ]; then
+            matched=true
+            break
+          fi
+          if [[ "$CIRCLE_BRANCH" =~ $branch ]]; then
+            matched=true
+            break
+          fi
+        done
+
+        if [ "$matched" != "true" ]; then
+          echo "branch doesn't match"
+          exit 0
+        fi
+        cd "<< parameters.dir >>"
+        git fetch
+        sha1="$(git show -s --format=%H origin/$CIRCLE_BRANCH)"
+        echo "SHA1 of origin/$CIRCLE_BRANCH: $sha1"
+        
+        if [ "$CIRCLE_SHA1" = "$sha1" ]; then
+          echo "branch is latest"
+          exit 0
+        fi
+        
+        echo "The revision isn't latest" >&2
+        exit 1
