@@ -8,7 +8,10 @@ orbs:
 workflows:
   build:
     jobs:
-      - forbid_rerun_non_latest_build
+      - forbid_rerun_non_latest_build:
+          filters:
+            tags:
+              only: /.*/
       - orb/pack:
           name: pack
           requires:
