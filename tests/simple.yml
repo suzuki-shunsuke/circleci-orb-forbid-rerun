@@ -1,0 +1,10 @@
+jobs:
+  build:
+    docker:
+      - image: alpine:3.11.3
+    steps:
+      - checkout
+workflows:
+  build:
+    jobs:
+      - build

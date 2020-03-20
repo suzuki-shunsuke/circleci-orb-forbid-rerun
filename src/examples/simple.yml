@@ -1,0 +1,23 @@
+description: |
+  Forbid rerun on master branch and release branch.
+usage:
+  version: 2.1
+  orbs:
+    forbid-rerun: suzuki-shunsuke/forbid-rerun@0.1.0
+  workflows:
+    build:
+      jobs:
+        - forbid_rerun
+  jobs:
+    forbid_rerun:
+      docker:
+        - image: alpine:3.11.3
+      steps:
+        - run:
+            name: Install requirements
+            command: |
+              apk add ca-certificates git bash
+        - checkout
+        - forbid-rerun/forbid-rerun-non-latest-build:
+            branches: "master,release/.*"
+            separator: ","

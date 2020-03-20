@@ -1,0 +1,16 @@
+---
+version: 2.1
+description: |
+  Forbid rerun builds whose revision isn't latest.
+  Push tag event isn't supported.
+  
+  In CircleCI, we can't forbid to rerun old workflows, but sometimes rerun old workflows raises undesirable result.
+  For example, 
+
+  * In case of application deployment, old application may be deployed
+  * In case of Terraform, existing resources may be destroyed
+
+  This Orb makes the build failure if the build isn't safe.
+
+display:
+  source_url: https://github.com/suzuki-shunsuke/circleci-orb-forbid-rerun

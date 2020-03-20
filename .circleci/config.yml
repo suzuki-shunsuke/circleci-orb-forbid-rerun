@@ -1,0 +1,59 @@
+---
+version: 2.1
+
+orbs:
+  orb: suzuki-shunsuke/orb@0.1.1
+  forbid-rerun: suzuki-shunsuke/forbid-rerun@dev:pr-1
+
+workflows:
+  build:
+    jobs:
+      - forbid_rerun_non_latest_build
+      - orb/pack:
+          name: pack
+          requires:
+            - forbid_rerun_non_latest_build
+          filters:
+            tags:
+              only: /.*/
+      - orb/test:
+          name: test
+          workflows: ls tests/*
+          requires:
+            - pack
+          filters:
+            tags:
+              only: /.*/
+          
+      - orb/publish-dev:
+          name: publish-dev
+          orb_path: suzuki-shunsuke/forbid-rerun
+          requires:
+            - pack
+            - test
+
+      - orb/publish:
+          name: publish
+          orb_path: suzuki-shunsuke/forbid-rerun
+          requires:
+            - pack
+            - test
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
+
+jobs:
+  forbid_rerun_non_latest_build:
+    docker:
+      - image: alpine:3.11.3
+    steps:
+      - run:
+          name: Install requirements
+          command: |
+            apk add ca-certificates git bash openssh
+      - checkout
+      - forbid-rerun/forbid-rerun-non-latest-build:
+          branches: ".*"
+          separator: ","
