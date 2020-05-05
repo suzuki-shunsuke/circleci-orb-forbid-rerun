@@ -50,7 +50,7 @@ workflows:
 jobs:
   forbid_rerun_non_latest_build:
     docker:
-      - image: alpine:3.11.3
+      - image: alpine:3.11.6
     steps:
       - run:
           name: Install requirements
